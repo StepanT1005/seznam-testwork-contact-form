@@ -45,7 +45,14 @@ const schema = yup.object().shape({
       }
       return /^\+?[0-9]{10,14}$/.test(value);
     }),
-  message: yup.string().required("Message is required"),
+  message: yup
+    .string()
+    .required("Message is required")
+    .test(
+      "is-not-empty",
+      "Message cannot be empty or just spaces",
+      (value) => value?.trim().length > 0
+    ),
 });
 
 const ContactForm: React.FC = () => {
